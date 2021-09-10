@@ -1,4 +1,4 @@
-package com.zxz.server.config;
+package com.zxz.server.config.security;
 
 import com.zxz.server.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;

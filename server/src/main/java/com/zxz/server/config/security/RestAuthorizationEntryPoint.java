@@ -1,4 +1,4 @@
-package com.zxz.server.config;
+package com.zxz.server.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zxz.server.common.Code;

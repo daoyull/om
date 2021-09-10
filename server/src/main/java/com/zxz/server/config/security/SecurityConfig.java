@@ -1,4 +1,4 @@
-package com.zxz.server.config;
+package com.zxz.server.config.security;
 
 import com.zxz.server.pojo.Admin;
 import com.zxz.server.service.IAdminService;
