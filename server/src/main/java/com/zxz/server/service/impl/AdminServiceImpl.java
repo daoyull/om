@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author zxz
@@ -46,7 +46,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public RespBean login(String username, String password, HttpServletRequest request) {
         //登录功能
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        if(null==userDetails||!passwordEncoder.matches(password,userDetails.getPassword())){
+        System.out.println(userDetails);
+        if (null == userDetails || !passwordEncoder.matches(password, userDetails.getPassword())) {
             return RespBean.error("用户名或密码不正确");
         }
         //添加security进全文
@@ -62,7 +63,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return RespBean.success("登录成功", tokenMap);
     }
 
-    //获取用户根据用户名
+    //获取用户名根据用户
     @Override
     public Admin getAdminByUserName(String username) {
         return adminMapper.getAdminByUserName(username);

@@ -16,7 +16,7 @@ public interface AdminMapper extends BaseMapper<Admin> {
 
 
 
-    @Select("select * from t_admin where name = #{username} and enabled = 1")
+    @Select("select * from t_admin where username like #{username} and enabled=1")
     Admin getAdminByUserName(String username);
 
 
