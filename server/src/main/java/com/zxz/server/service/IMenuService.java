@@ -3,6 +3,8 @@ package com.zxz.server.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zxz.server.pojo.Menu;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.zxz.server.pojo.Menu;
  */
 public interface IMenuService extends IService<Menu> {
 
+    List<Menu> getMenuByAdminId();
 }
