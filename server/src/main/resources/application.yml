@@ -28,9 +28,9 @@ spring:
   # Mybatis-plus配置
 mybatis-plus:
   #配置Mapper映射文件
-  mapper-locations: classpath*:/mapper/*Mapper.xml
+  mapper-locations: classpath*:com/zxz/server/mapper/*Mapper.xml
   # 配置MyBatis数据返回类型别名（默认别名是类名）
-  type-aliases-package: com.xxxx.server.pojo
+  type-aliases-package: com.zxz.server.pojo
   configuration:
     # 自动驼峰命名
     map-underscore-to-camel-case: false
