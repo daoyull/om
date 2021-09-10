@@ -1,5 +1,6 @@
 package com.zxz.server.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zxz.server.mapper.AdminMapper;
 import com.zxz.server.pojo.Admin;
@@ -43,13 +44,22 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     //登录之后返回Token
     @Override
-    public RespBean login(String username, String password, HttpServletRequest request) {
+    public RespBean login(String username, String password, String code, HttpServletRequest request) {
+        String captcha = (String) request.getSession().getAttribute("captcha");
+        if (StringUtils.isBlank(captcha) || !code.equals(captcha)){
+                return RespBean.error("验证码错误");
+        }
         //登录功能
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         System.out.println(userDetails);
         if (null == userDetails || !passwordEncoder.matches(password, userDetails.getPassword())) {
             return RespBean.error("用户名或密码不正确");
         }
+
+        if(!userDetails.isEnabled()){
+            return RespBean.error("账户已被禁用，请联系管理员");
+        }
+
         //添加security进全文
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(userDetails, null,
