@@ -3,8 +3,10 @@ package com.zxz.server.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zxz.server.mapper.AdminMapper;
+import com.zxz.server.mapper.RoleMapper;
 import com.zxz.server.pojo.Admin;
 import com.zxz.server.pojo.RespBean;
+import com.zxz.server.pojo.Role;
 import com.zxz.server.service.IAdminService;
 import com.zxz.server.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,6 +36,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Autowired
     private AdminMapper adminMapper;
+    @Autowired
+    private RoleMapper roleMapper;
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -77,6 +82,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public Admin getAdminByUserName(String username) {
         return adminMapper.getAdminByUserName(username);
+    }
+
+    //根据用户id获取权限列表
+    @Override
+    public List<Role> getRoles(Integer adminId) {
+        return roleMapper.getRoles(adminId);
     }
 
 }

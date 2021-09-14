@@ -37,6 +37,14 @@
         </collection>
     </resultMap>
 
+    <resultMap id="MenusWithRole" type="com.zxz.server.pojo.Menu" extends="BaseResultMap">
+        <collection property="roles" ofType="com.zxz.server.pojo.Role">
+            <id column="rid" property="id"></id>
+            <result column="rname" property="name"></result>
+            <result column="rnameZh" property="nameZh"></result>
+        </collection>
+    </resultMap>
+
     <!--根据用户id返回菜单-->
     <select id="getMenuByAdminId" resultMap="Menus">
         SELECT DISTINCT m1.*,
@@ -60,6 +68,21 @@
           AND m2.enabled = true
         ORDER BY m1.id,
                  m2.id
+    </select>
+
+<!--    根据角色获取权限列表-->
+    <select id="getMenusByRole" resultMap="MenusWithRole">
+        SELECT
+        m.*, r.id AS rid,
+        r.`name` AS rname,
+        r.nameZh AS rnameZh
+        FROM
+        t_menu AS m
+        JOIN t_menu_role AS mr
+        JOIN t_role AS r ON m.id = mr.mid
+        AND r.id = mr.rid
+        ORDER BY m.id
+
     </select>
 
 </mapper>
