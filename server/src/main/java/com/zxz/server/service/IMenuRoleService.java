@@ -2,6 +2,7 @@ package com.zxz.server.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zxz.server.pojo.MenuRole;
+import com.zxz.server.pojo.RespBean;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.zxz.server.pojo.MenuRole;
  */
 public interface IMenuRoleService extends IService<MenuRole> {
 
+    RespBean updateMenuRole(Integer rid, Integer[] mids);
 }
