@@ -4,21 +4,53 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.zxz.server.pojo.Admin">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="phone" property="phone" />
-        <result column="telephone" property="telephone" />
-        <result column="address" property="address" />
-        <result column="enabled" property="enabled" />
-        <result column="username" property="username" />
-        <result column="password" property="password" />
-        <result column="userFace" property="userFace" />
-        <result column="remark" property="remark" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="telephone" property="telephone"/>
+        <result column="address" property="address"/>
+        <result column="enabled" property="enabled"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="userFace" property="userFace"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <resultMap id="getAllAdminOfRole" type="com.zxz.server.pojo.Admin" extends="BaseResultMap">
+        <collection property="roles" ofType="com.zxz.server.pojo.Role">
+            <id column="rid" property="id"/>
+            <result column="rname" property="name"/>
+            <result column="rnameZh" property="nameZh"/>
+        </collection>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, phone, telephone, address, enabled, username, password, userFace, remark
+        id
+        , name, phone, telephone, address, enabled, username, password, userFace, remark
     </sql>
+
+    <select id="getAllAdmin" resultMap="getAllAdminOfRole">
+        SELECT a.id,
+        a.`name`,
+        a.phone,
+        a.telephone,
+        a.address,
+        a.enabled,
+        a.username,
+        a.userface,
+        a.remark,
+        r.id AS rid,
+        r.`name` AS rname,
+        r.nameZh AS rnameZh
+        FROM t_admin AS a
+        LEFT JOIN t_admin_role AS ar ON a.id = ar.adminId
+        LEFT JOIN t_role AS r ON r.id = ar.rid
+        WHERE a.id != #{id}
+        <if test="null!=search and search !=' '">
+            AND a.`name` LIKE CONCAT('%', #{search}, '%')
+        </if>
+
+    </select>
 
 </mapper>

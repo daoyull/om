@@ -8,6 +8,7 @@ import com.zxz.server.pojo.Admin;
 import com.zxz.server.pojo.RespBean;
 import com.zxz.server.pojo.Role;
 import com.zxz.server.service.IAdminService;
+import com.zxz.server.utils.AdminUtil;
 import com.zxz.server.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,6 +89,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public List<Role> getRoles(Integer adminId) {
         return roleMapper.getRoles(adminId);
+    }
+
+    @Override
+    public List<Admin> getAllAdmin(String search) {
+        return adminMapper.getAllAdmin(AdminUtil.getCurrentAdmin().getId(),search);
     }
 
 }

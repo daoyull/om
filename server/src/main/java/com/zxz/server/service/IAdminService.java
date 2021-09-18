@@ -23,8 +23,16 @@ public interface IAdminService extends IService<Admin> {
 
     Admin getAdminByUserName(String username);
 
-    /*
-    * 根据用户id获取权限列表
-    * */
+    /**
+     * 根据用户id获取权限列表
+     * @param adminId
+     * @return
+     */
     List<Role> getRoles(Integer adminId);
+
+    /**
+     * 获取所有操作员
+     * @return
+     */
+    List<Admin> getAllAdmin(String search);
 }

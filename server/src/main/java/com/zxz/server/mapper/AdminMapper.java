@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zxz.server.pojo.Admin;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -20,4 +22,5 @@ public interface AdminMapper extends BaseMapper<Admin> {
     Admin getAdminByUserName(String username);
 
 
+    List<Admin> getAllAdmin(Integer id, String search);
 }
