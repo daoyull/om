@@ -3,7 +3,9 @@ package com.zxz.server.controller;
 
 import com.zxz.server.pojo.Admin;
 import com.zxz.server.pojo.RespBean;
+import com.zxz.server.pojo.Role;
 import com.zxz.server.service.IAdminService;
+import com.zxz.server.service.IRoleService;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,8 @@ public class AdminController {
 
     @Autowired
     private IAdminService adminService;
+    @Autowired
+    private IRoleService roleService;
 
 
     @ApiModelProperty(value = "获取所有操作员")
@@ -48,6 +52,18 @@ public class AdminController {
             return RespBean.success("删除成功");
         }
         return RespBean.error("删除失败");
+    }
+
+    @ApiModelProperty(value = "获取所有角色")
+    @GetMapping("/roles")
+    public List<Role> getAllRoles(){
+        return roleService.list();
+    }
+
+    @ApiModelProperty("更新操作员角色")
+    @PutMapping("/updateRole")
+    public RespBean updateAdminRoles(Integer adminId,Integer[] rids){
+            return adminService.updateAdminRoles(adminId,rids);
     }
 
 }

@@ -2,6 +2,7 @@ package com.zxz.server.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zxz.server.pojo.AdminRole;
+import com.zxz.server.pojo.RespBean;
 
 /**
  * <p>
@@ -13,4 +14,12 @@ import com.zxz.server.pojo.AdminRole;
  */
 public interface AdminRoleMapper extends BaseMapper<AdminRole> {
 
+
+    /**
+     * 更新操作员角色
+     * @param adminId
+     * @param rids
+     * @return
+     */
+    Integer addAdminRoles(Integer adminId, Integer[] rids);
 }

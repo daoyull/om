@@ -1,15 +1,21 @@
 package com.zxz.server.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zxz.server.mapper.AdminMapper;
+import com.zxz.server.mapper.AdminRoleMapper;
 import com.zxz.server.mapper.RoleMapper;
 import com.zxz.server.pojo.Admin;
+import com.zxz.server.pojo.AdminRole;
 import com.zxz.server.pojo.RespBean;
 import com.zxz.server.pojo.Role;
+import com.zxz.server.service.IAdminRoleService;
 import com.zxz.server.service.IAdminService;
 import com.zxz.server.utils.AdminUtil;
 import com.zxz.server.utils.JwtTokenUtil;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,6 +47,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private RoleMapper roleMapper;
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private AdminRoleMapper adminRoleMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -94,6 +102,23 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public List<Admin> getAllAdmin(String search) {
         return adminMapper.getAllAdmin(AdminUtil.getCurrentAdmin().getId(),search);
+    }
+
+
+    /**
+     * 更新操作员角色
+     * @param adminId
+     * @param rids
+     * @return
+     */
+    @Override
+    public RespBean updateAdminRoles(Integer adminId, Integer[] rids) {
+        adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId",adminId));
+        Integer result = adminRoleMapper.addAdminRoles(adminId, rids);
+        if(result ==rids.length){
+            return RespBean.success("更新成功");
+        }
+        return RespBean.error("更新失败");
     }
 
 }
