@@ -1,14 +1,15 @@
 package com.zxz.server.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -40,6 +41,7 @@ public class Employee implements Serializable {
     private String gender;
 
     @ApiModelProperty(value = "出生日期")
+    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "Asia/shanghai")
     private LocalDate birthday;
 
     @ApiModelProperty(value = "身份证号")
@@ -88,6 +90,7 @@ public class Employee implements Serializable {
     private String school;
 
     @ApiModelProperty(value = "入职日期")
+    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "Asia/shanghai")
     private LocalDate beginDate;
 
     @ApiModelProperty(value = "在职状态")
@@ -100,15 +103,19 @@ public class Employee implements Serializable {
     private Double contractTerm;
 
     @ApiModelProperty(value = "转正日期")
+    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "Asia/shanghai")
     private LocalDate conversionTime;
 
     @ApiModelProperty(value = "离职日期")
+    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "Asia/shanghai")
     private LocalDate notWorkDate;
 
     @ApiModelProperty(value = "合同起始日期")
+    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "Asia/shanghai")
     private LocalDate beginContract;
 
     @ApiModelProperty(value = "合同终止日期")
+    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "Asia/shanghai")
     private LocalDate endContract;
 
     @ApiModelProperty(value = "工龄")
@@ -117,5 +124,23 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "工资账套ID")
     private Integer salaryId;
 
+    @ApiModelProperty(value = "民族")
+    @TableField(exist = false)
+    private Nation nation;
 
+    @ApiModelProperty(value = "政治面貌")
+    @TableField(exist = false)
+    private PoliticsStatus politicsStatus;
+
+    @ApiModelProperty(value = "部门")
+    @TableField(exist = false)
+    private Department department;
+
+    @ApiModelProperty(value = "等级")
+    @TableField(exist = false)
+    private Joblevel joblevel;
+
+    @ApiModelProperty(value = "职位")
+    @TableField(exist = false)
+    private Position position;
 }
