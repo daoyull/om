@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * @注释
  */
 public class AdminUtil {
+
     public static Admin getCurrentAdmin(){
         return (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
