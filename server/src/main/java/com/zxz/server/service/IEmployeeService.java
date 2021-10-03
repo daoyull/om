@@ -33,4 +33,12 @@ public interface IEmployeeService extends IService<Employee> {
     RespBean insertEmployee(Employee employee);
 
     RespBean maxWorkId();
+
+
+    /**
+     * 查询员工
+     * @param id
+     * @return
+     */
+    List<Employee> getEmployee(Integer id);
 }

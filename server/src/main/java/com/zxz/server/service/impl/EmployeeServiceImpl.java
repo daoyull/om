@@ -79,4 +79,9 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
                 QueryWrapper<Employee>().select("max(workID)"));
         return RespBean.success(null, String.format("%08d", Integer.parseInt(maps.get(0).get("max(workID) ").toString())+1));
     }
+
+    @Override
+    public List<Employee> getEmployee(Integer id) {
+        return employeeMapper.getEmployee(id);
+    }
 }
