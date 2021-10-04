@@ -26,7 +26,6 @@ import java.util.List;
  */
 @Data
 @RequiredArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false,of = "name")
 @Accessors(chain = true)
 @TableName("t_department")

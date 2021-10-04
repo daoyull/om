@@ -11,6 +11,7 @@ import com.zxz.server.pojo.Employee;
 import com.zxz.server.pojo.RespBean;
 import com.zxz.server.pojo.RespPageBean;
 import com.zxz.server.service.IEmployeeService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +33,14 @@ import java.util.Map;
 public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> implements IEmployeeService {
     @Autowired
     private EmployeeMapper employeeMapper;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
 
     /**
      * @param currentPage
      * @param size
      * @param employee
-     * @param localDates
      * @return
      */
     @Override
@@ -55,6 +57,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 
     /**
      * 添加员工
+     *
      * @param employee
      * @return
      */
@@ -68,6 +71,9 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         employee.setContractTerm(Double.parseDouble(decimalFormat.format(days / 365.00))
         );
         if (1 == employeeMapper.insert(employee)) {
+            Employee emp = employeeMapper.getEmployee(employee.getId()).get(0);
+            rabbitTemplate.convertAndSend("mail.welcome", emp);
+
             return RespBean.success("添加成功!");
         }
         return RespBean.error("添加失败!");
@@ -75,13 +81,23 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 
     @Override
     public RespBean maxWorkId() {
-        List<Map<String, Object>> maps = employeeMapper.selectMaps(new
-                QueryWrapper<Employee>().select("max(workID)"));
-        return RespBean.success(null, String.format("%08d", Integer.parseInt(maps.get(0).get("max(workID) ").toString())+1));
+        Integer maxWordId = employeeMapper.getMaxWordId();
+        return RespBean.success(null, maxWordId + 1);
     }
 
     @Override
     public List<Employee> getEmployee(Integer id) {
         return employeeMapper.getEmployee(id);
     }
+
+    @Override
+    public RespPageBean getEmployeeWithSalary(Integer currentPage, Integer size) {
+        //开启分页
+        Page<Employee> page = new Page<>(currentPage, size);
+        IPage<Employee> employeePage = employeeMapper.getEmployeeWithSalary(page);
+        RespPageBean respPageBean = new RespPageBean(employeePage.getTotal(),
+                employeePage.getRecords());
+        return respPageBean;
+    }
+
 }

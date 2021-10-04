@@ -148,7 +148,7 @@ public class EmployeeController {
     }
 
 
-    @ApiOperation(value = "导入员工数据")
+/*    @ApiOperation(value = "导入员工数据")
     @ApiImplicitParams({@ApiImplicitParam(name = "file", value = "上传文件", dataType
             = "MultipartFile")})
     @PostMapping("/import")
@@ -190,6 +190,6 @@ public class EmployeeController {
             e.printStackTrace();
         }
         return RespBean.error("导入失败!");
-    }
+    }*/
 
 }

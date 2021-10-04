@@ -6,6 +6,7 @@
     <modules>
         <module>generator</module>
         <module>server</module>
+        <module>mail</module>
     </modules>
 
 

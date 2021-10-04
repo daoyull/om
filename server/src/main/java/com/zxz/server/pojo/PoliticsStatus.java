@@ -24,7 +24,6 @@ import java.io.Serializable;
  */
 @Data
 @RequiredArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false,of = "name")
 @Accessors(chain = true)
 @TableName("t_politics_status")

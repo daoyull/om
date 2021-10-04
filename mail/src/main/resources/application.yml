@@ -1,0 +1,15 @@
+server:
+  port: 8082
+spring:
+  mail:
+    host: smtp.163.com
+    protocol: smtp
+    default-encoding: utf-8
+    password: DXAGBZYWKVOJNVSM
+    username: daoyu5313@163.com
+    port: 25
+  rabbitmq:
+    port: 5672
+    host: 192.168.6.3
+    username: guest
+    password: guest

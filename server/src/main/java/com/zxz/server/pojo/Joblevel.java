@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
  * @since 2021-09-09
  */
 @Data
-@NoArgsConstructor
+
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = false,of = "name")
 @Accessors(chain = true)

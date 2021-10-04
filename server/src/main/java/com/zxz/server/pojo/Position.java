@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 @Data
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = false,of = "name")
-@NoArgsConstructor
+
 @Accessors(chain = true)
 @TableName("t_position")
 @ApiModel(value="Position对象", description="")

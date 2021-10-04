@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zxz.server.pojo.Employee;
 import com.zxz.server.pojo.RespPageBean;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -37,4 +38,10 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
     List<Employee> getEmployee(Integer id);
 
     IPage<Employee> getEmployeeWithSalary(Page<Employee> page);
+
+    @Select("SELECT id \n" +
+            "from t_employee \n" +
+            "ORDER BY id DESC\n" +
+            "LIMIT 0,1")
+    Integer getMaxWordId();
 }

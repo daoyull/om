@@ -24,7 +24,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = false,of = "name")
-@NoArgsConstructor
+
 @Accessors(chain = true)
 @TableName("t_nation")
 @RequiredArgsConstructor
