@@ -40,7 +40,7 @@ spring:
 
   rabbitmq:
     port: 5672
-    host: 192.168.6.3
+    host: 172.25.112.91
     username: guest
     password: guest
 
@@ -68,5 +68,14 @@ jwt:
   expiration: 604800
   # JWT 负载中拿到开头
   tokenHead: Bearer
+
+
+#minio配置
+minio:
+  endpoint: http://127.0.0.1:9000
+  accessKey: admin
+  secretKey: zhenzhen
+  bucketName: yeb-face
+  useSSL: false
 
 

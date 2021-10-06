@@ -19,9 +19,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -60,8 +62,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public RespBean login(String username, String password, String code, HttpServletRequest request) {
         String captcha = (String) request.getSession().getAttribute("captcha");
-        if (StringUtils.isBlank(captcha) || !code.equals(captcha)){
-                return RespBean.error("验证码错误");
+        if (StringUtils.isBlank(captcha) || !code.equals(captcha)) {
+            return RespBean.error("验证码错误");
         }
         //登录功能
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -70,7 +72,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             return RespBean.error("用户名或密码不正确");
         }
 
-        if(!userDetails.isEnabled()){
+        if (!userDetails.isEnabled()) {
             return RespBean.error("账户已被禁用，请联系管理员");
         }
 
@@ -101,22 +103,51 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public List<Admin> getAllAdmin(String search) {
-        return adminMapper.getAllAdmin(AdminUtil.getCurrentAdmin().getId(),search);
+        return adminMapper.getAllAdmin(AdminUtil.getCurrentAdmin().getId(), search);
     }
 
 
     /**
      * 更新操作员角色
+     *
      * @param adminId
      * @param rids
      * @return
      */
     @Override
     public RespBean updateAdminRoles(Integer adminId, Integer[] rids) {
-        adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId",adminId));
+        adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId", adminId));
         Integer result = adminRoleMapper.addAdminRoles(adminId, rids);
-        if(result ==rids.length){
+        if (result == rids.length) {
             return RespBean.success("更新成功");
+        }
+        return RespBean.error("更新失败");
+    }
+
+    @Override
+    public RespBean updatePassword(String oldPass, String pass, Integer adminId) {
+        Admin admin = adminMapper.selectById(adminId);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (encoder.matches(oldPass, admin.getPassword())) {
+            admin.setPassword(encoder.encode(pass));
+            int result = adminMapper.updateById(admin);
+            if (1 == result) {
+                return RespBean.success("更新成功!");
+            }
+        }
+        return RespBean.error("更新失败!");
+    }
+
+    @Override
+    public RespBean updateAdminUserFace(String url, Integer id, Authentication authentication) {
+        Admin admin = adminMapper.selectById(id);
+        admin.setUserFace(url);
+        int result = adminMapper.updateById(admin);
+        if (1 == result) {
+            Admin principal = (Admin) authentication.getPrincipal();
+            principal.setUserFace(url);
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(admin,authentication.getPrincipal(),authentication.getAuthorities()));
+            return RespBean.success("更新成功",url);
         }
         return RespBean.error("更新失败");
     }

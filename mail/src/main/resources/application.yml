@@ -10,6 +10,6 @@ spring:
     port: 25
   rabbitmq:
     port: 5672
-    host: 192.168.6.3
+    host: 172.25.112.91
     username: guest
     password: guest
