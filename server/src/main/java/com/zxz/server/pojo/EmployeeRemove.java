@@ -1,6 +1,7 @@
 package com.zxz.server.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -11,6 +12,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * <p>
@@ -36,10 +38,10 @@ public class EmployeeRemove implements Serializable {
     @ApiModelProperty(value = "员工id")
     private Integer eid;
 
-    @ApiModelProperty(value = "调动后部门")
+    @ApiModelProperty(value = "调动后部门ID")
     private Integer afterDepId;
 
-    @ApiModelProperty(value = "调动后职位")
+    @ApiModelProperty(value = "调动后职位ID")
     private Integer afterJobId;
 
     @ApiModelProperty(value = "调动日期")
@@ -50,6 +52,10 @@ public class EmployeeRemove implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String remark;
+
+
+
+
 
 
 }

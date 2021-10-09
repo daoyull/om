@@ -34,7 +34,7 @@ public class JoblevelController {
     }
 
     @ApiModelProperty("增加职称")
-    @PostMapping("/")
+    @PostMapping("/pos")
     public RespBean addJobLevel(@RequestBody Joblevel joblevel){
         joblevel.setCreateDate(LocalDateTime.now());
         if(joblevelService.save(joblevel)){

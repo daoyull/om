@@ -30,10 +30,10 @@ public class MinioClientProp implements InitializingBean {
             // 创建minioClient 
             minioClient = MinioClient.builder().endpoint(endpoint).credentials(accessKey, secretKey).build();
             // 判断是否存在桶，不存在则创建桶
-            boolean hasBucket = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
-            if (!hasBucket) {
-                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
-            }
+//            boolean hasBucket = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+//            if (!hasBucket) {
+//                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+//            }
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new RuntimeException("minioClient初始化失败");

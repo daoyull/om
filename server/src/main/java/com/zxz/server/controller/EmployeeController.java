@@ -50,14 +50,14 @@ public class EmployeeController {
     private IDepartmentService departmentService;
 
     @ApiModelProperty("获取所有员工分页")
-    @GetMapping("")
+    @GetMapping("/all")
     public RespPageBean getEmployee(@RequestParam(defaultValue = "1") Integer currentPage,
                                     @RequestParam(defaultValue = "10") Integer size, Employee employee, LocalDate[] beginDateScope) {
         return employeeService.getEmployeeByPage(currentPage, size, employee, beginDateScope);
     }
 
     @ApiOperation(value = "添加员工")
-    @PostMapping("/")
+    @PostMapping("/add")
     public RespBean addEmp(@RequestBody Employee employee) {
         return employeeService.insertEmployee(employee);
     }
@@ -108,7 +108,7 @@ public class EmployeeController {
     }
 
     @ApiOperation(value = "更新员工")
-    @PutMapping("/")
+    @PutMapping("/update")
     public RespBean updateEmp(@RequestBody Employee employee) {
         if (employeeService.updateById(employee)) {
             return RespBean.success("更新成功!");

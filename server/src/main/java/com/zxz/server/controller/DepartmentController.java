@@ -27,13 +27,23 @@ public class DepartmentController {
     private IDepartmentService departmentService;
 
     @ApiOperation(value = "获取所有部门")
-    @GetMapping("/")
+    @GetMapping("/all")
     public List<Department> getAllDepartments(){
+        System.out.println(departmentService.getAllDepartments());
         return departmentService.getAllDepartments();
     }
 
+    @ApiOperation(value = "获取所有部门")
+    @PostMapping("/all")
+    public List<Department> getAllDepartmentsOfPost(){
+        System.out.println(departmentService.getAllDepartments());
+        return departmentService.getAllDepartments();
+    }
+
+
+
     @ApiModelProperty(value = "添加部门")
-    @PostMapping("/")
+    @PostMapping("/add")
     public RespBean addDep(@RequestBody Department department){
         return departmentService.addDep(department);
     }

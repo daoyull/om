@@ -133,6 +133,7 @@ public class MinioUtil {
      * @param bucketName 桶名称，如果不存在，则系统配置的桶
      * @throws Exception
      */
+
     public void delete(String objectName, String bucketName) throws Exception{
         // 判断是否传入桶名称
         if (StringUtils.isBlank(bucketName)){

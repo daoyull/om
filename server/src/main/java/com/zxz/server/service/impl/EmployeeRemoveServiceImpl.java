@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zxz.server.mapper.EmployeeRemoveMapper;
 import com.zxz.server.pojo.EmployeeRemove;
 import com.zxz.server.service.IEmployeeRemoveService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -17,4 +21,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmployeeRemoveServiceImpl extends ServiceImpl<EmployeeRemoveMapper, EmployeeRemove> implements IEmployeeRemoveService {
 
+    @Autowired
+    private EmployeeRemoveMapper employeeRemoveMapper;
+
+    @Override
+    public Object getAll() {
+      return   employeeRemoveMapper.getAll();
+    }
 }

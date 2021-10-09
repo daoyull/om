@@ -3,6 +3,9 @@ package com.zxz.server.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zxz.server.pojo.EmployeeRemove;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  *  Mapper 接口
@@ -13,4 +16,5 @@ import com.zxz.server.pojo.EmployeeRemove;
  */
 public interface EmployeeRemoveMapper extends BaseMapper<EmployeeRemove> {
 
+    Object getAll();
 }
