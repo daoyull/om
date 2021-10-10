@@ -87,4 +87,6 @@ minio:
   bucketName: yeb-face
   useSSL: false
 
+filePath: E:\yeb\
+
 

@@ -44,6 +44,9 @@ public class EmployeeRemove implements Serializable {
     @ApiModelProperty(value = "调动后职位ID")
     private Integer afterJobId;
 
+    @ApiModelProperty(value = "调动后职称ID")
+    private Integer afterPosId;
+
     @ApiModelProperty(value = "调动日期")
     private LocalDate removeDate;
 

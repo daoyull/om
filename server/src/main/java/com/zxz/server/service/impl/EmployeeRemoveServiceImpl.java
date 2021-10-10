@@ -21,11 +21,5 @@ import java.util.Map;
 @Service
 public class EmployeeRemoveServiceImpl extends ServiceImpl<EmployeeRemoveMapper, EmployeeRemove> implements IEmployeeRemoveService {
 
-    @Autowired
-    private EmployeeRemoveMapper employeeRemoveMapper;
 
-    @Override
-    public Object getAll() {
-      return   employeeRemoveMapper.getAll();
-    }
 }

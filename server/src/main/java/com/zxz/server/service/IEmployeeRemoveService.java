@@ -16,5 +16,5 @@ import java.util.Map;
  */
 public interface IEmployeeRemoveService extends IService<EmployeeRemove> {
 
-    Object getAll();
+    ;
 }

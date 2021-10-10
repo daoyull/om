@@ -16,5 +16,5 @@ import java.util.Map;
  */
 public interface EmployeeRemoveMapper extends BaseMapper<EmployeeRemove> {
 
-    Object getAll();
+
 }

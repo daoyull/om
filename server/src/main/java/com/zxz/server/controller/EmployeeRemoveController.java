@@ -1,12 +1,14 @@
 package com.zxz.server.controller;
 
 
+import com.zxz.server.pojo.EmployeeRemove;
+import com.zxz.server.pojo.RespBean;
 import com.zxz.server.service.IEmployeeRemoveService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 /**
  * <p>
@@ -24,9 +26,13 @@ public class EmployeeRemoveController {
     private IEmployeeRemoveService employeeRemoveService;
 
     @ApiOperation("获取所有数据")
-    @GetMapping("/getAll")
-    public Object getAll(){
-        return employeeRemoveService.getAll();
+    @PostMapping("/add")
+    public RespBean addEmpMv(@RequestBody EmployeeRemove employeeRemove){
+        employeeRemove.setRemoveDate(LocalDate.now());
+        if(employeeRemoveService.save(employeeRemove)){
+            return RespBean.success("调动信息添加成功");
+        }
+        return RespBean.error("调动信息添加失败");
     }
 
 
