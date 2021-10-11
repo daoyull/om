@@ -13,4 +13,5 @@ import com.zxz.server.pojo.SalaryAdjust;
  */
 public interface ISalaryAdjustService extends IService<SalaryAdjust> {
 
+    SalaryAdjust getSalaryById(Integer id);
 }

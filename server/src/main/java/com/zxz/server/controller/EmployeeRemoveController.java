@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * <p>
@@ -34,6 +35,14 @@ public class EmployeeRemoveController {
         }
         return RespBean.error("调动信息添加失败");
     }
+
+    @ApiOperation("获取所有数据")
+    @GetMapping("/all")
+    public Object getEmpMv(){
+        return  employeeRemoveService.getAllMsg();
+
+    }
+
 
 
 }

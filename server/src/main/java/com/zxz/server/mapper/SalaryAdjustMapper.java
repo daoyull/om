@@ -2,6 +2,7 @@ package com.zxz.server.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zxz.server.pojo.SalaryAdjust;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * <p>
@@ -13,4 +14,6 @@ import com.zxz.server.pojo.SalaryAdjust;
  */
 public interface SalaryAdjustMapper extends BaseMapper<SalaryAdjust> {
 
+    @Select("select * from t_salary_adjust where eid = #{id}")
+    SalaryAdjust getSalaryById(Integer id);
 }

@@ -17,4 +17,5 @@ import java.util.Map;
 public interface EmployeeRemoveMapper extends BaseMapper<EmployeeRemove> {
 
 
+    List<EmployeeRemove> getAllMsg();
 }

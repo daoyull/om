@@ -26,10 +26,8 @@ public class SalarySobCfgController {
     private ISalaryService salaryService;
     @Autowired
     private IEmployeeService employeeService;
+
     @ApiOperation(value = "获取所有员工账套")
-
-
-
     @GetMapping("/")
     public RespPageBean getEmployeeWithSalary(@RequestParam(defaultValue = "1")
                                                       Integer currentPage,

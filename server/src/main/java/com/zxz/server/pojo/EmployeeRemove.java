@@ -37,6 +37,9 @@ public class EmployeeRemove implements Serializable {
 
     @ApiModelProperty(value = "员工id")
     private Integer eid;
+    @ApiModelProperty(value = "员工名")
+    @TableField(exist = false)
+    private String ename;
 
     @ApiModelProperty(value = "调动后部门ID")
     private Integer afterDepId;
@@ -55,6 +58,18 @@ public class EmployeeRemove implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String remark;
+
+    @ApiModelProperty(value = "调动后部门")
+    @TableField(exist = false)
+    private String depName;
+
+    @ApiModelProperty(value = "调动后职位")
+    @TableField(exist = false)
+    private String jobName;
+
+    @ApiModelProperty(value = "调动后职称")
+    @TableField(exist = false)
+    private String posName;
 
 
 

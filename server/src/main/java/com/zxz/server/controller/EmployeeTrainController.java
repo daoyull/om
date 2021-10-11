@@ -4,15 +4,14 @@ package com.zxz.server.controller;
 import com.zxz.server.pojo.Employee;
 import com.zxz.server.pojo.EmployeeTrain;
 import com.zxz.server.pojo.RespBean;
+import com.zxz.server.service.IEmployeeService;
 import com.zxz.server.service.IEmployeeTrainService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * <p>
@@ -28,6 +27,8 @@ public class EmployeeTrainController {
 
     @Autowired
     private IEmployeeTrainService employeeTrainService;
+    @Autowired
+    private IEmployeeService employeeService;
 
     @ApiOperation("员工培训")
     @PostMapping("/add")
@@ -37,6 +38,16 @@ public class EmployeeTrainController {
             return RespBean.success("成功");
         }
         return RespBean.error("失败");
+    }
+
+    @ApiOperation("员工培训记录")
+    @GetMapping("/all")
+    public List<EmployeeTrain> getAll(){
+        List<EmployeeTrain> list = employeeTrainService.list();
+        for (EmployeeTrain employeeTrain : list) {
+            employeeTrain.setName(employeeService.getById(employeeTrain.getEid()).getName());
+        }
+        return list;
     }
 
 }

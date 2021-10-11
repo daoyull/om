@@ -26,6 +26,7 @@ public class SalaryController {
     @Autowired
     private ISalaryService salaryService;
 
+
     @ApiOperation(value = "获取所有工资账套")
     @GetMapping("/")
     public List<Salary> getAllSalaries() {
@@ -61,6 +62,7 @@ public class SalaryController {
         }
         return RespBean.error("更新失败!");
     }
+
 
 }
 

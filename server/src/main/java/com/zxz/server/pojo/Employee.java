@@ -179,4 +179,7 @@ public class Employee implements Serializable {
     @TableField(exist = false)
     private Salary salary;
 
+    @ApiModelProperty(value = "全部工资")
+    private Integer allSalary;
+
 }

@@ -12,14 +12,27 @@
         <result column="removeDate" property="removeDate" />
         <result column="reason" property="reason" />
         <result column="remark" property="remark" />
+        <result column="depName" property="depName" />
+        <result column="jobName" property="jobName" />
+        <result column="posName" property="posName" />
+        <result column="ename" property="ename" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, eid, afterDepId, afterJobId, removeDate, reason, remark
+        id, eid, afterDepId, afterJobId,`afterPosId`, removeDate, reason, remark
     </sql>
 
-
+<select id="getAllMsg" resultMap="BaseResultMap">
+    SELECT
+        re.id, re.eid,emp.name as ename, re.afterDepId, re.afterJobId,re.afterPosId, re.removeDate, re.reason, re.remark,dep.name as depName,job.name as jobName,pos.name as posName
+    FROM
+        t_employee_remove AS re
+            LEFT JOIN t_department AS dep ON re.afterDepId = dep.id
+            LEFT JOIN t_joblevel AS job ON re.afterJobId = job.id
+            LEFT JOIN t_position AS pos ON re.afterPosId = pos.id
+            Left Join t_employee emp on re.eid = emp.id
+</select>
 
 
 
