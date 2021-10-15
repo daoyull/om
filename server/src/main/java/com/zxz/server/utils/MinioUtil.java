@@ -29,9 +29,9 @@ public class MinioUtil {
     @Autowired
     private MinioClient minioClient;
 
-    public StatObjectResponse getFileInfo(String objectName, String bucketName){
+    public StatObjectResponse getFileInfo(String objectName, String bucketName) {
         try {
-            if (StringUtils.isBlank(bucketName)){
+            if (StringUtils.isBlank(bucketName)) {
                 bucketName = minioClientConfig.getBucketName();
             } else {
                 throw new Exception("操作失败！桶不存在！");
@@ -42,9 +42,9 @@ public class MinioUtil {
         }
     }
 
-    public void download(String objectName, String bucketName, String fileName,  HttpServletResponse response) throws Exception{
-        if (StringUtils.isNotBlank(bucketName)){
-            if (!this.bucketExists(bucketName)){
+    public void download(String objectName, String bucketName, String fileName, HttpServletResponse response) throws Exception {
+        if (StringUtils.isNotBlank(bucketName)) {
+            if (!this.bucketExists(bucketName)) {
                 throw new Exception("操作失败！桶不存在！");
             }
         } else {
@@ -55,21 +55,22 @@ public class MinioUtil {
                 .object(objectName)
                 .build());
         response.setContentType("application/force-download");
-        response.setHeader("Content-Disposition", "attachment;filename="+ fileName);
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
         response.setCharacterEncoding("UTF-8");
         IOUtils.copy(stream, response.getOutputStream());
     }
 
     /**
      * 上传单个文件到指定的桶
-     * @param file MultipartFile
+     *
+     * @param file       MultipartFile
      * @param bucketName 桶名称，如果不存在，则系统配置的桶
      * @throws Exception
      */
-    public String upload(MultipartFile file, String bucketName) throws Exception{
+    public String upload(MultipartFile file, String bucketName) throws Exception {
         // 判断是否传入桶名称
-        if (StringUtils.isNotBlank(bucketName)){
-            if (!this.bucketExists(bucketName)){
+        if (StringUtils.isNotBlank(bucketName)) {
+            if (!this.bucketExists(bucketName)) {
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
             }
         } else {
@@ -81,9 +82,11 @@ public class MinioUtil {
         String objectName = UUID.randomUUID().toString().replaceAll("-", "") +
                 fileName.substring(fileName.lastIndexOf("."), fileName.length());
         // 日期前缀
-        String folderPrefix = this.timeFolder();
-        objectName = folderPrefix + "/" +objectName;
+//        String folderPrefix = this.timeFolder();
+//        objectName = folderPrefix + "/" +objectName;
+//        objectName = objectName;
         // 上传
+
         minioClient.putObject(PutObjectArgs.builder()
                 .bucket(bucketName)
                 .object(objectName)
@@ -100,14 +103,15 @@ public class MinioUtil {
 
     /**
      * 上传多个文件到系统配置的桶
-     * @param files MultipartFile
+     *
+     * @param files      MultipartFile
      * @param bucketName 桶名称，如果不存在，则系统配置的桶
      * @throws Exception
      */
-    public List<String> uploadBatch(MultipartFile[] files, String bucketName) throws Exception{
+    public List<String> uploadBatch(MultipartFile[] files, String bucketName) throws Exception {
         // 判断是否传入桶名称
-        if (StringUtils.isNotBlank(bucketName)){
-            if (!this.bucketExists(bucketName)){
+        if (StringUtils.isNotBlank(bucketName)) {
+            if (!this.bucketExists(bucketName)) {
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
             }
         } else {
@@ -120,7 +124,7 @@ public class MinioUtil {
                 String filePath = this.upload(file, finalBucketName);
                 urlList.add(filePath);
             } catch (Exception e) {
-                log.info("文件上传失败，文件名：{}",file.getOriginalFilename());
+                log.info("文件上传失败，文件名：{}", file.getOriginalFilename());
                 throw new RuntimeException("文件上传失败", e);
             }
         });
@@ -129,17 +133,18 @@ public class MinioUtil {
 
     /**
      * 从指定的桶删除文件
+     *
      * @param objectName 文件名称
      * @param bucketName 桶名称，如果不存在，则系统配置的桶
      * @throws Exception
      */
 
-    public void delete(String objectName, String bucketName) throws Exception{
+    public void delete(String objectName, String bucketName) throws Exception {
         // 判断是否传入桶名称
-        if (StringUtils.isBlank(bucketName)){
+        if (StringUtils.isBlank(bucketName)) {
             bucketName = minioClientConfig.getBucketName();
         } else {
-            if (!this.bucketExists(bucketName)){
+            if (!this.bucketExists(bucketName)) {
                 throw new Exception("操作失败！桶不存在！");
             }
         }
@@ -148,21 +153,22 @@ public class MinioUtil {
 
     /**
      * 批量从指定的桶删除文件
+     *
      * @param objectNames 文件名称
-     * @param bucketName 桶名称，如果不存在，则系统配置的桶
+     * @param bucketName  桶名称，如果不存在，则系统配置的桶
      * @throws Exception
      */
-    public void deleteBatch(String[] objectNames, String bucketName) throws Exception{
+    public void deleteBatch(String[] objectNames, String bucketName) throws Exception {
         // 判断是否传入桶名称
-        if (StringUtils.isBlank(bucketName)){
+        if (StringUtils.isBlank(bucketName)) {
             bucketName = minioClientConfig.getBucketName();
         } else {
-            if (!this.bucketExists(bucketName)){
+            if (!this.bucketExists(bucketName)) {
                 throw new Exception("操作失败！桶不存在！");
             }
         }
         String finalBucketName = bucketName;
-        Arrays.stream(objectNames).parallel().forEach(objectName ->{
+        Arrays.stream(objectNames).parallel().forEach(objectName -> {
             try {
                 minioClient.removeObject(RemoveObjectArgs.builder().bucket(finalBucketName).object(objectName).build());
             } catch (Exception e) {
@@ -184,6 +190,7 @@ public class MinioUtil {
 
     /**
      * 判断是否存在传入的桶，不存在创建
+     *
      * @param bucketName
      * @throws IOException
      * @throws InvalidKeyException
