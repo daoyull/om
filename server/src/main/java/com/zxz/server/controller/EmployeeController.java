@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.ognl.CollectionElementsAccessor;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -148,48 +153,38 @@ public class EmployeeController {
     }
 
 
-/*    @ApiOperation(value = "导入员工数据")
-    @ApiImplicitParams({@ApiImplicitParam(name = "file", value = "上传文件", dataType
-            = "MultipartFile")})
+    @ApiOperation(value = "导入员工数据")
+//    @ApiImplicitParams({@ApiImplicitParam(name = "file", value = "上传文件", dataType
+//            = "MultipartFile")})
     @PostMapping("/import")
     public RespBean importEmployee(MultipartFile file) {
         ImportParams params = new ImportParams();
         //去掉标题行
         params.setTitleRows(1);
-        List<Nation> nationList = nationService.list();
-        List<PoliticsStatus> politicsStatusList = politicsStatusService.list();
-        List<Department> departmentList = departmentService.list();
-        List<Joblevel> joblevelList = joblevelService.list();
-        List<Position> positionList = positionService.list();
+        HashMap<String, Integer> nationMap = (HashMap<String, Integer>) nationService.list().stream().collect(Collectors.toMap(Nation::getName, Nation::getId));
+        HashMap<String, Integer> politicsStatusMap = (HashMap<String, Integer>) politicsStatusService.list().stream().collect(Collectors.toMap(PoliticsStatus::getName, PoliticsStatus::getId));
+        HashMap<String, Integer> departmentMap = (HashMap<String, Integer>) departmentService.list().stream().collect(Collectors.toMap(Department::getName, Department::getId));
+        HashMap<String, Integer> joblevelMap = (HashMap<String, Integer>) joblevelService.list().stream().collect(Collectors.toMap(Joblevel::getName, Joblevel::getId));
+        HashMap<String, Integer> positionMap = (HashMap<String, Integer>) positionService.list().stream().collect(Collectors.toMap(Position::getName, Position::getId));
         try {
-            List<Employee> list = ExcelImportUtil.importExcel(file.getInputStream(),
-                    Employee.class, params);
-            list.forEach(employee -> {
-                //民族id
-                employee.setNationId(nationList.get(nationList.indexOf(new
-                        Nation(employee.getNation().getName()))).getId());
-                //政治面貌id
+            List<Employee> list = ExcelImportUtil.importExcel(file.getInputStream(), Employee.class, params);
+            for (Employee employee : list) {
+                employee.setNationId(nationMap.get(employee.getNation().getName()));
+                employee.setPoliticId(politicsStatusMap.get(employee.getPoliticsStatus().getName()));
+                employee.setDepartmentId(departmentMap.get(employee.getDepartment().getName()));
+                employee.setJobLevelId(joblevelMap.get(employee.getJoblevel().getName()));
+                employee.setPosId(positionMap.get(employee.getPosition().getName()));
+            }
 
-                employee.setPoliticId(politicsStatusList.get(politicsStatusList.indexOf(new
-                        PoliticsStatus(employee.getPoliticsStatus().getName()))).getId());
-                //部门id
-                employee.setDepartmentId(departmentList.get(departmentList.indexOf(new
-                        Department(employee.getDepartment().getName()))).getId());
-                //职称id
-                employee.setJobLevelId(joblevelList.get(joblevelList.indexOf(new
-                        Joblevel(employee.getJoblevel().getName()))).getId());
-                //职位id
-                employee.setPosId(positionList.get(positionList.indexOf(new
-                        Position(employee.getPosition().getName()))).getId());
-            });
             if (employeeService.saveBatch(list)) {
-                return RespBean.success("导入成功!");
+                return RespBean.success("导入成功");
             }
             return RespBean.error("导入失败!");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return RespBean.error("导入失败!");
-    }*/
+    }
 
 }
